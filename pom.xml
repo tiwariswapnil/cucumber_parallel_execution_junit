@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.github.automation</groupId>
+    <artifactId>cucumber_parallel_execution</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven-compiler-plugin>3.8.1</maven-compiler-plugin>
+        <lombok.version>1.18.20</lombok.version>
+        <selenium.version>3.141.59</selenium.version>
+        <cucumber.version>6.10.4</cucumber.version>
+        <junit.version>4.13</junit.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-core</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-api</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>${selenium.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin}</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+            <!--  Uncomment below plugins to run Feature files in parallel using Surefire plugin -->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-surefire-plugin</artifactId>-->
+<!--                <version>2.22.0</version>-->
+<!--                <configuration>-->
+<!--                    <parallel>methods</parallel>-->
+<!--                    <threadCount>2</threadCount>-->
+<!--                    <perCoreThreadCount>true</perCoreThreadCount>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
+            <!--  Uncomment below plugins to run tests in parallel using Failsafe plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>integration-test</goal>
+<!--                            <goal>verify</goal>-->
+                        </goals>
+                        <configuration>
+                            <includes>
+                                <include>**/TestRunner.java</include>
+
+                                <!-- Uncomment Below line to execute feature files with multiple runners -->
+                                <!-- <include>**/Runner.java</include> -->
+
+                            </includes>
+
+                            <!-- Uncomment Below 3 lines to execute using parallel or combination option -->
+                            <parallel>methods</parallel>
+                            <threadCount>2</threadCount>
+                            <perCoreThreadCount>true</perCoreThreadCount>
+
+                            <!-- Uncomment Below 3 lines to execute using forking or combination option -->
+                            <!--  <forkCount>2</forkCount>
+                            <reuseForks>true</reuseForks>
+                            <reportsDirectory></reportsDirectory> -->
+
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+</project>
